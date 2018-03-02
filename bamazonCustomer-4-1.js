@@ -19,6 +19,7 @@ connection.connect(function(err) {
 console.log("\n");  
 console.log("Welcome to Bamazon!\n");
 
+function start() {
 // Select all items from database
 	
 	connection.query("SELECT * FROM products", function(err, res) {
@@ -34,6 +35,7 @@ console.log("Welcome to Bamazon!\n");
 	}
 		runInquirer(list)
 	})
+}
 
 //execute buyprompt
 function runInquirer(list){
@@ -80,14 +82,17 @@ function runInquirer(list){
 }
 
 	function updateInventory(itemNum, boughtAmount){
+		console.log(itemNum);
+		console.log(boughtAmount);
 
 		query = "UPDATE products SET inventory_amount = inventory_amount - ? WHERE item_id = ?"
-		connection.query(query, [boughtAmount], [itemNum], function(err, res){
+		connection.query(query, [boughtAmount, itemNum], function(err, res){
 
 			if (err) throw err;
 
 			console.log("Inventory updated.");
-			console.log("The new inventory amount is " + res[0].inventory_amount)
+			start();
+			// console.log("The new inventory amount is " + res[0].inventory_amount)
 		})
 	}
 
@@ -110,7 +115,7 @@ function runInquirer(list){
 		  		}
 			})
 	}
-
+start();
 
 // Node application
 
